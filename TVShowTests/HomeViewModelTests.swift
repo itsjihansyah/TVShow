@@ -75,4 +75,21 @@ final class HomeViewModelTests: XCTestCase {
             return
         }
     }
+    
+    func test_load_success_updatesTopRatedShows() async {
+        let service = MockAPIService()
+        service.result = .success(TVShowMockData.shows)
+
+        let sut = HomeViewModel(service: service)
+
+        await sut.load()
+
+        XCTAssertEqual(
+            sut.topRatedShows,
+            TVShowMockData.shows
+                .sorted { ($0.rating?.average ?? 0) > ($1.rating?.average ?? 0) }
+                .prefix(5)
+                .map { $0 }
+        )
+    }
 }

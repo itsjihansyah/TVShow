@@ -13,6 +13,7 @@ final class HomeViewModel: ObservableObject {
     private let service: APIServiceProtocol
 
     @Published private(set) var shows: [TVShow] = []
+    @Published private(set) var topRatedShows: [TVShow] = []
     @Published private(set) var viewState: ViewState = .idle
     @Published private(set) var selectedGenre: String?
 
@@ -33,10 +34,17 @@ final class HomeViewModel: ObservableObject {
             )
             
             self.shows = shows
+            self.topRatedShows = shows
+                .sorted {
+                    ($0.rating?.average ?? 0) >
+                    ($1.rating?.average ?? 0)
+                }
+                .prefix(5)
+                .map { $0 }
             self.viewState = .success
             
         } catch {
-            self.viewState = .error(error)
+            self.viewState = .error(error.localizedDescription)
         }
     }
 }

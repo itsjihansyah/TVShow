@@ -46,13 +46,13 @@ struct HomeView: View {
                     ScrollView(showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 24) {
 
-                            Text("Popular")
+                            Text("Top Rated")
                                 .font(.system(size: 24, weight: .semibold))
                                 .padding(.horizontal, 16)
 
                             ScrollView(.horizontal, showsIndicators: false) {
                                 LazyHStack(spacing: 16) {
-                                    ForEach(viewModel.shows, id: \.id) { show in
+                                    ForEach(viewModel.topRatedShows, id: \.id) { show in
                                         CardView(show: show)
                                     }
                                 }
