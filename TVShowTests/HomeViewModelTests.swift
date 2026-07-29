@@ -117,4 +117,15 @@ final class HomeViewModelTests: XCTestCase {
 
         XCTAssertTrue(sut.genres.isEmpty)
     }
+    
+    func test_selectShow_updatesSelectedShow() {
+        let service = MockAPIService()
+        let sut = HomeViewModel(service: service)
+
+        let show = TVShowMockData.shows[0]
+
+        sut.selectShow(show)
+
+        XCTAssertEqual(sut.selectedShow?.id, show.id)
+    }
 }

@@ -18,7 +18,7 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var genres: [String] = []
     @Published private(set) var viewState: ViewState = .idle
     @Published private(set) var selectedGenre: String?
-    @Published private(set) var selectedShow: TVShow? = nil
+    @Published var selectedShow: TVShow? = nil
 
     init(service: APIServiceProtocol) {
         self.service = service
@@ -27,6 +27,10 @@ final class HomeViewModel: ObservableObject {
     func selectGenre(_ genre: String?) {
         selectedGenre = genre
         applyFilter()
+    }
+    
+    func selectShow(_ show: TVShow) {
+        selectedShow = show
     }
     
     func load() async {

@@ -48,6 +48,9 @@ struct HomeView: View {
                                 LazyHStack(spacing: 16) {
                                     ForEach(viewModel.topRatedShows, id: \.id) { show in
                                         CardView(show: show)
+                                            .onTapGesture {
+                                                viewModel.selectedShow = show
+                                            }
                                     }
                                 }
                                 .padding(.horizontal, 16)
@@ -69,6 +72,9 @@ struct HomeView: View {
                 
             }
             .navigationBarHidden(true)
+            .navigationDestination(item: $viewModel.selectedShow) { show in
+                ShowDetailView(show: show)
+            }
         }
         .preferredColorScheme(.dark)
         .task {

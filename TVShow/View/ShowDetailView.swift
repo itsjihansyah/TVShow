@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ShowDetailView: View {
-    var body: some View {
-        Text("ShowDetailView")
+    @Environment(\.dismiss) private var dismiss
+    @StateObject private var viewModel: ShowDetailViewModel
+    
+    init(show: TVShow) {
+        _viewModel = StateObject(wrappedValue: ShowDetailViewModel(show: show))
     }
-}
-
-#Preview {
-    ShowDetailView()
+    
+    var body: some View {
+        Text("Detail View of \(viewModel.show.name)")
+    }
 }

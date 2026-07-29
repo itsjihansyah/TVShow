@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TVShow : Codable, Equatable {
+struct TVShow : Codable, Equatable, Hashable {
     let id: Int
     let name: String
     let rating: Rating?
@@ -17,11 +17,11 @@ struct TVShow : Codable, Equatable {
     let premiered: Date
 }
 
-struct Rating : Codable, Equatable {
+struct Rating : Codable, Equatable, Hashable{
     let average: Double?
 }
 
-struct ShowImage: Codable, Equatable {
+struct ShowImage: Codable, Equatable, Hashable {
     let medium: URL
     let original: URL
 }
