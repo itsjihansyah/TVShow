@@ -9,14 +9,9 @@ import Combine
 
 @MainActor
 final class ShowDetailViewModel: ObservableObject {
-    private let service: APIServiceProtocol
-    var show: TVShow
-    
-    init(
-        show: TVShow,
-        showService: any APIServiceProtocol = APIService()
-    ) {
+    let show: TVShow
+
+    init(show: TVShow) {
         self.show = show
-        self.service = showService
     }
 }

@@ -25,3 +25,23 @@ struct ShowImage: Codable, Equatable, Hashable {
     let medium: URL
     let original: URL
 }
+
+extension TVShow {
+    var premieredText: String {
+        premiered.formatted(
+            .dateTime
+                .day(.twoDigits)
+                .month(.twoDigits)
+                .year()
+        )
+    }
+    
+    var plainSummary: String {
+        summary
+            .replacingOccurrences(
+                of: "<[^>]+>",
+                with: "",
+                options: .regularExpression
+            )
+    }
+}

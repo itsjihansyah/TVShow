@@ -16,6 +16,81 @@ struct ShowDetailView: View {
     }
     
     var body: some View {
-        Text("Detail View of \(viewModel.show.name)")
+        VStack(alignment: .leading) {
+            ZStack {
+                Color.background
+                    .ignoresSafeArea()
+                
+                ScrollView {
+                    ZStack(alignment: .top) {
+                        GeometryReader { geometry in
+                            ImageLoader(
+                                url: viewModel.show.image.original,
+                                width: geometry.size.width,
+                                cornerRadius: 0
+                            )
+                            .offset(y: -geometry.size.height * 0.16)
+                        }
+                        
+                        LinearGradient(
+                            stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: Color.background, location: 0.6)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 600)
+                        
+                        VStack(alignment: .leading, spacing: 16) {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(viewModel.show.name)
+                                    .font(.system(size: 36))
+                                    .fontWeight(Font.Weight.bold)
+                                HStack {
+                                    HStack(spacing: 4){
+                                        Image(systemName: "star.fill")
+                                            .imageScale(.small)
+                                        Text(viewModel.show.rating?.average?.description ?? "")
+                                            .font(.system(size: 18))
+                                    }
+                                    Circle()
+                                        .frame(width: 4)
+                                    
+                                    Text("Premiered on")
+                                    Text(viewModel.show.premieredText)
+                                        .font(.system(size: 18))
+                                }
+                                .foregroundStyle(.secondaryApp)
+                            }
+                            .padding(.horizontal, 16)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 12) {
+                                    ForEach(viewModel.show.genres, id: \.self) { genre in
+                                        Chip(name: genre)
+                                    }
+                                }
+                                .padding(.horizontal, 16)
+                            }
+                            
+                            ButtonPrimaryView(
+                                title: "Share",
+                                icon: "arrowshape.turn.up.forward.fill"
+                            ) {
+                                // TODO: (Jihan) add sharelink
+                            }
+                            .padding(16)
+                            
+                            Text(viewModel.show.plainSummary)
+                                .padding(.horizontal, 16)
+                        }
+                        .padding(.top, 360)
+                    }
+                }
+                .scrollIndicators(.hidden)
+            }
+        }
+        .preferredColorScheme(.dark)
     }
 }

@@ -63,6 +63,9 @@ struct HomeView: View {
                             LazyVGrid(columns: columns, spacing: 24) {
                                 ForEach(viewModel.filteredShows, id: \.id) { show in
                                     CardView(show: show)
+                                        .onTapGesture {
+                                            viewModel.selectedShow = show
+                                        }
                                 }
                             }
                             .padding(.horizontal, 16)
