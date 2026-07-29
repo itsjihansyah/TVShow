@@ -58,6 +58,7 @@ struct ShowDetailView: View {
                                         .frame(width: 4)
                                     
                                     Text("Premiered on")
+                                        .font(.system(size: 18))
                                     Text(viewModel.show.premieredText)
                                         .font(.system(size: 18))
                                 }
@@ -74,11 +75,15 @@ struct ShowDetailView: View {
                                 .padding(.horizontal, 16)
                             }
                             
-                            ButtonPrimaryView(
-                                title: "Share",
-                                icon: "arrowshape.turn.up.forward.fill"
+                            ShareLink(
+                                item: viewModel.show.url,
+                                subject: Text(viewModel.show.name),
+                                message: Text(viewModel.show.shareText)
                             ) {
-                                // TODO: (Jihan) add sharelink
+                                ButtonPrimaryView(
+                                    title: "Share",
+                                    icon: "arrowshape.turn.up.forward.fill"
+                                )
                             }
                             .padding(16)
                             

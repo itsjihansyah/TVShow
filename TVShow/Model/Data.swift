@@ -15,6 +15,7 @@ struct TVShow : Codable, Equatable, Hashable {
     let genres: [String]
     let summary: String
     let premiered: Date
+    let url: URL
 }
 
 struct Rating : Codable, Equatable, Hashable{
@@ -43,5 +44,16 @@ extension TVShow {
                 with: "",
                 options: .regularExpression
             )
+    }
+    
+    var shareText: String {
+            """
+            📺 \(name)
+            
+            \(plainSummary)
+            
+            Learn more:
+            \(url.absoluteString)
+            """
     }
 }

@@ -38,4 +38,12 @@ final class APIServiceTests: XCTestCase {
             "Under the Dome is the story of a small town that is suddenly and inexplicably sealed off from the rest of the world by an enormous transparent dome."
         )
     }
+    
+    func test_shareText_containsTitleSummaryAndURL() {
+        let show = TVShowMockData.shows[0]
+
+        XCTAssertTrue(show.shareText.contains(show.name))
+        XCTAssertTrue(show.shareText.contains(show.plainSummary))
+        XCTAssertTrue(show.shareText.contains(show.url.absoluteString))
+    }
 }

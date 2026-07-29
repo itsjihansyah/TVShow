@@ -37,7 +37,8 @@ enum TVShowMockData {
             and inexplicably sealed off from the rest of the world by an enormous \
             transparent dome.</p>
             """,
-            premiered: dateFormatter.date(from: "2013-06-24")!
+            premiered: dateFormatter.date(from: "2013-06-24")!,
+            url: URL(string: "https://www.tvmaze.com/shows/1/under-the-dome")!
         )
     ]
 }
