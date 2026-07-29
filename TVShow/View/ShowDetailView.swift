@@ -23,14 +23,12 @@ struct ShowDetailView: View {
                 
                 ScrollView {
                     ZStack(alignment: .top) {
-                        GeometryReader { geometry in
-                            ImageLoader(
-                                url: viewModel.show.image.original,
-                                width: geometry.size.width,
-                                cornerRadius: 0
-                            )
-                            .offset(y: -geometry.size.height * 0.16)
-                        }
+                        ImageLoader(
+                            url: viewModel.show.image.original,
+                            width: UIScreen.main.bounds.width,
+                            cornerRadius: 0
+                        )
+                        .offset(y: -UIScreen.main.bounds.height * 0.16)
                         
                         LinearGradient(
                             stops: [
@@ -40,7 +38,7 @@ struct ShowDetailView: View {
                             startPoint: .top,
                             endPoint: .bottom
                         )
-                        .frame(height: 600)
+                        .frame(height: 680)
                         
                         VStack(alignment: .leading, spacing: 16) {
                             VStack(alignment: .leading, spacing: 8) {
@@ -91,7 +89,7 @@ struct ShowDetailView: View {
                             Text(viewModel.show.plainSummary)
                                 .padding(.horizontal, 16)
                         }
-                        .padding(.top, 360)
+                        .padding(.top, 420)
                     }
                 }
                 .scrollIndicators(.hidden)
