@@ -44,27 +44,28 @@ struct HomeView: View {
                                 .font(.system(size: 24, weight: .semibold))
                                 .padding(.horizontal, 16)
 
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                LazyHStack(spacing: 16) {
-                                    switch viewModel.viewState {
-                                    case .loading:
+                            switch viewModel.viewState {
+                            case .loading:
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    LazyHStack(spacing: 16) {
                                         ForEach(0..<5, id: \.self) { _ in
                                             CardSkeletonView()
                                         }
-                                        
-                                    case .success:
-                                        ForEach(viewModel.topRatedShows, id: \.id) { show in
-                                            CardView(show: show, refreshID: viewModel.imageRefreshID)
-                                                .onTapGesture {
-                                                    viewModel.selectShow(show)
-                                                }
-                                        }
-                                        
-                                    default:
-                                        EmptyView()
                                     }
+                                    .padding(.horizontal, 16)
                                 }
-                                .padding(.horizontal, 16)
+
+                            case .success:
+                                CarouselView(
+                                    shows: viewModel.topRatedShows,
+                                    refreshID: viewModel.imageRefreshID,
+                                    onShowTap: { show in
+                                        viewModel.selectShow(show)
+                                    }
+                                )
+
+                            default:
+                                EmptyView()
                             }
 
                             Text("Browse")

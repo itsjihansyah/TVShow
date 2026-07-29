@@ -40,12 +40,21 @@ final class HomeViewModel: ObservableObject {
     
     func load() async {
         viewState = .loading
-
         currentPage = 0
+        hasMorePages = true
+        isFetchingPage = false
         allShows = []
+        filteredShows = []
+        topRatedShows = []
+        genres = []
 
         await fetchNextPage()
         imageRefreshID = UUID()
+
+        if case .error = viewState {
+            return
+        }
+
         viewState = .success
     }
     
