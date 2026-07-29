@@ -9,5 +9,17 @@ import Combine
 
 @MainActor
 final class HomeViewModel: ObservableObject {
-    // TODO: (Jihan) Add business logic
+    private let service: APIServiceProtocol
+
+    @Published private(set) var shows: [TVShow] = []
+    @Published private(set) var viewState: ViewState = .idle
+    @Published private(set) var selectedGenre: String?
+
+    init(service: APIServiceProtocol) {
+        self.service = service
+    }
+    
+    func selectGenre(_ genre: String?) {
+        selectedGenre = genre
+    }
 }

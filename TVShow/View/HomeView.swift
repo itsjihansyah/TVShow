@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var selectedGenre: String?
-
+    @StateObject private var viewModel: HomeViewModel
+    
     private let genres = [
         "Drama",
         "Science-Fiction",
@@ -22,6 +22,12 @@ struct HomeView: View {
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
     ]
+    
+    init(service: any APIServiceProtocol = APIService()) {
+        _viewModel = StateObject(
+            wrappedValue: HomeViewModel(service: service)
+        )
+    }
 
     var body: some View {
         NavigationStack {
@@ -89,22 +95,21 @@ private extension HomeView {
 
                 Chip(
                     title: "All",
-                    isSelected: selectedGenre == nil
+                    isSelected: viewModel.selectedGenre == nil
                 )
                 .onTapGesture {
-                    selectedGenre = nil
+                    viewModel.selectGenre(nil)
                 }
 
                 ForEach(genres, id: \.self) { genre in
                     Chip(
                         title: genre,
-                        isSelected: selectedGenre == genre
+                        isSelected: viewModel.selectedGenre == genre
                     )
                     .onTapGesture {
-                        selectedGenre =
-                            selectedGenre == genre
-                            ? nil
-                            : genre
+                        viewModel.selectGenre(
+                            viewModel.selectedGenre == genre ? nil : genre
+                        )
                     }
                 }
             }
