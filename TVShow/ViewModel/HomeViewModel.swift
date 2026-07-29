@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 @MainActor
 final class HomeViewModel: ObservableObject {
@@ -21,5 +22,21 @@ final class HomeViewModel: ObservableObject {
     
     func selectGenre(_ genre: String?) {
         selectedGenre = genre
+    }
+    
+    func load() async {
+        viewState = .loading
+        
+        do {
+            let shows: [TVShow] = try await service.fetchData(
+                request: APIRequest(endpoint: .showList)
+            )
+            
+            self.shows = shows
+            self.viewState = .success
+            
+        } catch {
+            self.viewState = .error(error.localizedDescription)
+        }
     }
 }

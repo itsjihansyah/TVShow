@@ -10,40 +10,68 @@ import XCTest
 
 @MainActor
 final class HomeViewModelTests: XCTestCase {
-    let mockService = MockAPIService()
-    
     func test_init_hasIdleState() {
-        let sut = HomeViewModel(service: mockService)
-
+        let service = MockAPIService()
+        let sut = HomeViewModel(service: service)
+        
         XCTAssertEqual(sut.viewState, .idle)
     }
-
+    
     func test_init_hasEmptyShows() {
-        let sut = HomeViewModel(service: mockService)
-
+        let service = MockAPIService()
+        let sut = HomeViewModel(service: service)
+        
         XCTAssertTrue(sut.shows.isEmpty)
     }
-
+    
     func test_init_hasNoSelectedGenre() {
-        let sut = HomeViewModel(service: mockService)
-
+        let service = MockAPIService()
+        let sut = HomeViewModel(service: service)
+        
         XCTAssertNil(sut.selectedGenre)
     }
     
     func test_selectGenre_updatesSelectedGenre() {
-        let sut = HomeViewModel(service: mockService)
-
+        let service = MockAPIService()
+        let sut = HomeViewModel(service: service)
+        
         sut.selectGenre("Drama")
-
+        
         XCTAssertEqual(sut.selectedGenre, "Drama")
     }
     
     func test_selectGenre_nil_clearsSelectedGenre() {
-        let sut = HomeViewModel(service: mockService)
-
+        let service = MockAPIService()
+        let sut = HomeViewModel(service: service)
+        
         sut.selectGenre("Drama")
         sut.selectGenre(nil)
-
+        
         XCTAssertNil(sut.selectedGenre)
+    }
+    
+    func test_load_success_updatesShows() async {
+        let service = MockAPIService()
+        service.result = .success(TVShowMockData.shows)
+        
+        let sut = HomeViewModel(service: service)
+        
+        await sut.load()
+        
+        XCTAssertEqual(sut.shows, TVShowMockData.shows)
+    }
+    
+    func test_load_failure_setsErrorState() async {
+        let service = MockAPIService()
+        service.result = .failure(MockError.network)
+        
+        let sut = HomeViewModel(service: service)
+        
+        await sut.load()
+        
+        guard case .error = sut.viewState else {
+            XCTFail("Expected error state")
+            return
+        }
     }
 }
