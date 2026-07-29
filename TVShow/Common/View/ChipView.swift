@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct Chip: View {
-    let title: String
+    let name: String
     var isSelected: Bool = false
 
     var body: some View {
         if #available(iOS 26.0, *) {
-            Text(title)
+            Text(name)
                 .font(.system(size: 18))
                 .foregroundStyle(.white)
                 .padding(.horizontal, 16)
@@ -27,7 +27,7 @@ struct Chip: View {
                 .clipShape(Capsule())
                 .glassEffect()
         } else {
-            Text(title)
+            Text(name)
                 .font(.system(size: 18))
                 .foregroundStyle(.white)
                 .padding(.horizontal, 16)

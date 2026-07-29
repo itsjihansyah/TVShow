@@ -19,7 +19,7 @@ enum TVShowMockData {
     static let shows: [TVShow] = [
         TVShow(
             id: 1,
-            title: "Under the Dome",
+            name: "Under the Dome",
             rating: Rating(
                 average: 6.6
             ),

@@ -94,7 +94,7 @@ private extension HomeView {
             HStack(spacing: 8) {
 
                 Chip(
-                    title: "All",
+                    name: "All",
                     isSelected: viewModel.selectedGenre == nil
                 )
                 .onTapGesture {
@@ -103,7 +103,7 @@ private extension HomeView {
 
                 ForEach(genres, id: \.self) { genre in
                     Chip(
-                        title: genre,
+                        name: genre,
                         isSelected: viewModel.selectedGenre == genre
                     )
                     .onTapGesture {

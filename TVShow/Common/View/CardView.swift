@@ -23,7 +23,7 @@ struct CardView: View {
             )
 
             VStack(alignment: .center, spacing: 6) {
-                Text(show.title)
+                Text(show.name)
                     .font(.system(size: fontSize, weight: fontWeight))
                     .lineLimit(1)
                     .truncationMode(.tail)
@@ -31,7 +31,7 @@ struct CardView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "star.fill")
                         .font(.system(size: 12))
-                    Text(show.rating?.average.description ?? "-")
+                    Text(show.rating?.average?.description ?? "-")
                         .font(.system(size: 14))
                 }
                 .foregroundStyle(.secondaryApp)
