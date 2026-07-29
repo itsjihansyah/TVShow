@@ -5,9 +5,9 @@
 //  Created by Jihan Syahira Adnanda Putri on 29/07/26.
 //
 
-enum ViewState: Equatable {
+enum ViewState {
     case idle
     case loading
     case success
-    case error(String)
+    case error(Error)
 }

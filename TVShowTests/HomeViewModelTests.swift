@@ -59,6 +59,7 @@ final class HomeViewModelTests: XCTestCase {
         await sut.load()
         
         XCTAssertEqual(sut.shows, TVShowMockData.shows)
+        XCTAssertEqual(sut.viewState, .success)
     }
     
     func test_load_failure_setsErrorState() async {

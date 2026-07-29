@@ -15,8 +15,6 @@ struct HomeView: View {
         "Science-Fiction",
         "Thriller"
     ]
-
-    private let shows = PreviewData.shows
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -54,10 +52,7 @@ struct HomeView: View {
 
                             ScrollView(.horizontal, showsIndicators: false) {
                                 LazyHStack(spacing: 16) {
-                                    ForEach(shows, id: \.id) { show in
-                                        CardView(show: show)
-                                        CardView(show: show)
-                                        CardView(show: show)
+                                    ForEach(viewModel.shows, id: \.id) { show in
                                         CardView(show: show)
                                     }
                                 }
@@ -69,10 +64,7 @@ struct HomeView: View {
                                 .padding(.horizontal, 16)
 
                             LazyVGrid(columns: columns, spacing: 24) {
-                                ForEach(shows, id: \.id) { show in
-                                    CardView(show: show)
-                                    CardView(show: show)
-                                    CardView(show: show)
+                                ForEach(viewModel.shows, id: \.id) { show in
                                     CardView(show: show)
                                 }
                             }
@@ -85,6 +77,9 @@ struct HomeView: View {
             .navigationBarHidden(true)
         }
         .preferredColorScheme(.dark)
+        .task {
+            await viewModel.load()
+        }
     }
 }
 

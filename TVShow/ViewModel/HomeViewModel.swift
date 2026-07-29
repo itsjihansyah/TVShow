@@ -36,7 +36,7 @@ final class HomeViewModel: ObservableObject {
             self.viewState = .success
             
         } catch {
-            self.viewState = .error(error.localizedDescription)
+            self.viewState = .error(error)
         }
     }
 }
