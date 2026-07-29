@@ -18,6 +18,7 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var genres: [String] = []
     @Published private(set) var viewState: ViewState = .idle
     @Published private(set) var selectedGenre: String?
+    @Published private(set) var selectedShow: TVShow? = nil
 
     init(service: APIServiceProtocol) {
         self.service = service

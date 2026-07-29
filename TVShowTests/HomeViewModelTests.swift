@@ -21,7 +21,7 @@ final class HomeViewModelTests: XCTestCase {
         let service = MockAPIService()
         let sut = HomeViewModel(service: service)
         
-        XCTAssertTrue(sut.shows.isEmpty)
+        XCTAssertTrue(sut.allShows.isEmpty)
     }
     
     func test_init_hasNoSelectedGenre() {
@@ -58,7 +58,7 @@ final class HomeViewModelTests: XCTestCase {
         
         await sut.load()
         
-        XCTAssertEqual(sut.shows, TVShowMockData.shows)
+        XCTAssertEqual(sut.allShows, TVShowMockData.shows)
         XCTAssertEqual(sut.viewState, .success)
     }
     
@@ -91,5 +91,30 @@ final class HomeViewModelTests: XCTestCase {
                 .prefix(5)
                 .map { $0 }
         )
+    }
+    
+    func test_load_success_updatesGenres() async {
+        let service = MockAPIService()
+        service.result = .success(TVShowMockData.shows)
+
+        let sut = HomeViewModel(service: service)
+
+        await sut.load()
+
+        XCTAssertEqual(
+            sut.genres,
+            ["Drama", "Science-Fiction", "Thriller"]
+        )
+    }
+    
+    func test_load_success_withEmptyShows_hasEmptyGenres() async {
+        let service = MockAPIService()
+        service.result = .success([] as [TVShow])
+
+        let sut = HomeViewModel(service: service)
+
+        await sut.load()
+
+        XCTAssertTrue(sut.genres.isEmpty)
     }
 }
