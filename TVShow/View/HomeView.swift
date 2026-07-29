@@ -54,7 +54,7 @@ struct HomeView: View {
                                         
                                     case .success:
                                         ForEach(viewModel.topRatedShows, id: \.id) { show in
-                                            CardView(show: show)
+                                            CardView(show: show, refreshID: viewModel.imageRefreshID)
                                                 .onTapGesture {
                                                     viewModel.selectShow(show)
                                                 }
@@ -82,7 +82,7 @@ struct HomeView: View {
                                 case .success:
                                     ForEach(viewModel.filteredShows, id: \.id) { show in
                                         
-                                        CardView(show: show)
+                                        CardView(show: show, refreshID: viewModel.imageRefreshID)
                                             .onTapGesture {
                                                 viewModel.selectShow(show)
                                             }
@@ -104,6 +104,20 @@ struct HomeView: View {
                     }
                 }
                 
+                if case .error(_) = viewModel.viewState {
+                    Color.black
+                        .opacity(0.5)
+                        .ignoresSafeArea()
+                    
+                    ErrorModalView(
+                        retryAction: {
+                            Task {
+                                await viewModel.load()
+                            }
+                        }
+                    )
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
             .navigationBarHidden(true)
             .navigationDestination(item: $viewModel.selectedShow) { show in

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CardView: View {
     let show: TVShow
+    let refreshID: UUID
+    
     var posterWidth: CGFloat = 170
     var fontSize: CGFloat = 16
     var fontWeight: Font.Weight = .semibold
@@ -18,6 +20,7 @@ struct CardView: View {
         VStack(alignment: .center, spacing: 12) {
             ImageLoader(
                 url: show.image.medium,
+                refreshID: refreshID,
                 width: posterWidth,
                 cornerRadius: cornerRadius
             )

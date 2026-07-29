@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ImageLoader: View {
     let url: URL?
+    var refreshID: UUID? = nil
     var width: CGFloat
     var aspectRatio: CGFloat = 2 / 3
     var cornerRadius: CGFloat = 20
@@ -20,7 +21,7 @@ struct ImageLoader: View {
 
     var body: some View {
         if let url {
-            AsyncImage(url: url, transaction: Transaction(animation: .easeInOut)) { phase in
+            AsyncImage(url: url) { phase in
                 switch phase {
                 case .empty:
                     RoundedRectangle(cornerRadius: cornerRadius)
@@ -40,7 +41,6 @@ struct ImageLoader: View {
                         .task {
                             guard retryCount < 3 else { return }
                             retryCount += 1
-
                             try? await Task.sleep(for: .seconds(1))
                             imageID = UUID()
                         }
@@ -49,6 +49,7 @@ struct ImageLoader: View {
                     EmptyView()
                 }
             }
+            .id(refreshID ?? imageID)
             .frame(width: width, height: width / aspectRatio)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         } else {

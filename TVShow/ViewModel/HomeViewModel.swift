@@ -19,6 +19,7 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var viewState: ViewState = .idle
     @Published private(set) var selectedGenre: String?
     @Published var selectedShow: TVShow? = nil
+    @Published var imageRefreshID = UUID()
     
     private var currentPage = 0
     private var isFetchingPage = false
@@ -44,7 +45,7 @@ final class HomeViewModel: ObservableObject {
         allShows = []
 
         await fetchNextPage()
-
+        imageRefreshID = UUID()
         viewState = .success
     }
     
