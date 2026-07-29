@@ -10,12 +10,6 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var viewModel: HomeViewModel
     
-    private let genres = [
-        "Drama",
-        "Science-Fiction",
-        "Thriller"
-    ]
-    
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
@@ -64,7 +58,7 @@ struct HomeView: View {
                                 .padding(.horizontal, 16)
 
                             LazyVGrid(columns: columns, spacing: 24) {
-                                ForEach(viewModel.shows, id: \.id) { show in
+                                ForEach(viewModel.filteredShows, id: \.id) { show in
                                     CardView(show: show)
                                 }
                             }
@@ -96,7 +90,7 @@ private extension HomeView {
                     viewModel.selectGenre(nil)
                 }
 
-                ForEach(genres, id: \.self) { genre in
+                ForEach(viewModel.genres, id: \.self) { genre in
                     Chip(
                         name: genre,
                         isSelected: viewModel.selectedGenre == genre

@@ -12,8 +12,10 @@ import Foundation
 final class HomeViewModel: ObservableObject {
     private let service: APIServiceProtocol
 
-    @Published private(set) var shows: [TVShow] = []
+    @Published private(set) var allShows: [TVShow] = []
+    @Published private(set) var filteredShows: [TVShow] = []
     @Published private(set) var topRatedShows: [TVShow] = []
+    @Published private(set) var genres: [String] = []
     @Published private(set) var viewState: ViewState = .idle
     @Published private(set) var selectedGenre: String?
 
@@ -23,6 +25,7 @@ final class HomeViewModel: ObservableObject {
     
     func selectGenre(_ genre: String?) {
         selectedGenre = genre
+        applyFilter()
     }
     
     func load() async {
@@ -33,18 +36,32 @@ final class HomeViewModel: ObservableObject {
                 request: APIRequest(endpoint: .showList)
             )
             
-            self.shows = shows
-            self.topRatedShows = shows
-                .sorted {
-                    ($0.rating?.average ?? 0) >
-                    ($1.rating?.average ?? 0)
-                }
-                .prefix(5)
-                .map { $0 }
+            self.allShows = shows
+            collectGenres()
+            applyFilter()
             self.viewState = .success
             
         } catch {
             self.viewState = .error(error.localizedDescription)
         }
+    }
+    
+    func applyFilter() {
+        if let genre = selectedGenre {
+            filteredShows = allShows.filter {
+                $0.genres.contains(genre)
+            }
+        } else {
+            filteredShows = allShows
+        }
+
+        topRatedShows = filteredShows
+            .sorted { ($0.rating?.average ?? 0) > ($1.rating?.average ?? 0) }
+            .prefix(5)
+            .map { $0 }
+    }
+    
+    func collectGenres() {
+        genres = Array(Set(allShows.flatMap(\.genres))).sorted()
     }
 }
