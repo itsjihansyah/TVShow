@@ -19,6 +19,10 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var viewState: ViewState = .idle
     @Published private(set) var selectedGenre: String?
     @Published var selectedShow: TVShow? = nil
+    
+    private var currentPage = 0
+    private var isFetchingPage = false
+    private var hasMorePages = true
 
     init(service: APIServiceProtocol) {
         self.service = service
@@ -35,19 +39,48 @@ final class HomeViewModel: ObservableObject {
     
     func load() async {
         viewState = .loading
+
+        currentPage = 0
+        allShows = []
+
+        await fetchNextPage()
+
+        viewState = .success
+    }
+    
+    func fetchNextPage() async {
+        guard !isFetchingPage else { return }
+        guard hasMorePages else { return }
+        
+        isFetchingPage = true
+        
+        defer {
+            isFetchingPage = false
+        }
         
         do {
             let shows: [TVShow] = try await service.fetchData(
-                request: APIRequest(endpoint: .showList)
+                request: APIRequest(
+                    endpoint: .showList,
+                    params: [
+                        "page": "\(currentPage + 1)"
+                    ]
+                )
             )
             
-            self.allShows = shows
+            if shows.isEmpty {
+                hasMorePages = false
+                return
+            }
+            
+            allShows.append(contentsOf: shows)
+            currentPage += 1
+            
             collectGenres()
             applyFilter()
-            self.viewState = .success
             
         } catch {
-            self.viewState = .error(error.localizedDescription)
+            viewState = .error(error.localizedDescription)
         }
     }
     

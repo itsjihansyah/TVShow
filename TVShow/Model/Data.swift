@@ -14,7 +14,7 @@ struct TVShow : Codable, Equatable, Hashable {
     let image: ShowImage
     let genres: [String]
     let summary: String
-    let premiered: Date
+    let premiered: Date?
     let url: URL
 }
 
@@ -29,7 +29,11 @@ struct ShowImage: Codable, Equatable, Hashable {
 
 extension TVShow {
     var premieredText: String {
-        premiered.formatted(
+        guard let premiered else {
+            return ""
+        }
+        
+        return "Premiered on " + premiered.formatted(
             .dateTime
                 .day(.twoDigits)
                 .month(.twoDigits)

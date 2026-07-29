@@ -20,11 +20,12 @@ struct ImageLoader: View {
 
     var body: some View {
         if let url {
-            AsyncImage(url: url) { phase in
+            AsyncImage(url: url, transaction: Transaction(animation: .easeInOut)) { phase in
                 switch phase {
                 case .empty:
                     RoundedRectangle(cornerRadius: cornerRadius)
                         .fill(.gray.opacity(0.2))
+                        .shimmer()
 
                 case .success(let image):
                     image
@@ -36,13 +37,11 @@ struct ImageLoader: View {
 
                 case .failure:
                     placeholder
-                        .task(id: imageID) {
+                        .task {
                             guard retryCount < 3 else { return }
-
                             retryCount += 1
 
                             try? await Task.sleep(for: .seconds(1))
-
                             imageID = UUID()
                         }
 
@@ -50,7 +49,6 @@ struct ImageLoader: View {
                     EmptyView()
                 }
             }
-            .id(imageID)
             .frame(width: width, height: width / aspectRatio)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         } else {

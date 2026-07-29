@@ -51,16 +51,17 @@ struct ShowDetailView: View {
                                     HStack(spacing: 4){
                                         Image(systemName: "star.fill")
                                             .imageScale(.small)
-                                        Text(viewModel.show.rating?.average?.description ?? "")
+                                        Text(viewModel.show.rating?.average?.description ?? "-")
                                             .font(.system(size: 18))
                                     }
-                                    Circle()
-                                        .frame(width: 4)
                                     
-                                    Text("Premiered on")
-                                        .font(.system(size: 18))
-                                    Text(viewModel.show.premieredText)
-                                        .font(.system(size: 18))
+                                    if viewModel.show.premieredText != "" {
+                                        Circle()
+                                            .frame(width: 4)
+                                        
+                                        Text(viewModel.show.premieredText)
+                                            .font(.system(size: 18))
+                                    }
                                 }
                                 .foregroundStyle(.secondaryApp)
                             }

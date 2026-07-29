@@ -46,11 +46,22 @@ struct HomeView: View {
 
                             ScrollView(.horizontal, showsIndicators: false) {
                                 LazyHStack(spacing: 16) {
-                                    ForEach(viewModel.topRatedShows, id: \.id) { show in
-                                        CardView(show: show)
-                                            .onTapGesture {
-                                                viewModel.selectedShow = show
-                                            }
+                                    switch viewModel.viewState {
+                                    case .loading:
+                                        ForEach(0..<5, id: \.self) { _ in
+                                            CardSkeletonView()
+                                        }
+                                        
+                                    case .success:
+                                        ForEach(viewModel.topRatedShows, id: \.id) { show in
+                                            CardView(show: show)
+                                                .onTapGesture {
+                                                    viewModel.selectShow(show)
+                                                }
+                                        }
+                                        
+                                    default:
+                                        EmptyView()
                                     }
                                 }
                                 .padding(.horizontal, 16)
@@ -61,11 +72,31 @@ struct HomeView: View {
                                 .padding(.horizontal, 16)
 
                             LazyVGrid(columns: columns, spacing: 24) {
-                                ForEach(viewModel.filteredShows, id: \.id) { show in
-                                    CardView(show: show)
-                                        .onTapGesture {
-                                            viewModel.selectedShow = show
-                                        }
+                                switch viewModel.viewState {
+                                case .loading:
+                                    ForEach(0..<6, id: \.self) { index in
+                                        CardSkeletonView()
+                                            .id("skeleton-\(index)")
+                                    }
+                                    
+                                case .success:
+                                    ForEach(viewModel.filteredShows, id: \.id) { show in
+                                        
+                                        CardView(show: show)
+                                            .onTapGesture {
+                                                viewModel.selectShow(show)
+                                            }
+                                            .onAppear {
+                                                if show.id == viewModel.filteredShows.last?.id {
+                                                    Task {
+                                                        await viewModel.fetchNextPage()
+                                                    }
+                                                }
+                                            }
+                                    }
+                                    
+                                default:
+                                    EmptyView()
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -80,6 +111,9 @@ struct HomeView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .refreshable {
+            await viewModel.load()
+        }
         .task {
             await viewModel.load()
         }
