@@ -1,18 +1,21 @@
 # TVShow
 
-> Short project description.
+A native iOS application built with **SwiftUI** that allows users to browse TV shows from the TVMaze API, filter shows by genre, and view detailed information. The app focuses on clean architecture, responsive UI, loading states, and modern Swift concurrency.
 
----
+<img width="2472" height="1016" alt="image" src="https://github.com/user-attachments/assets/2c0cc0e2-1141-407c-b6c9-eb9ed923268b" />
 
-## Planned Features
+
+## Features
 
 - Browse TV shows
-- Filter browsing page by genre
+- Infinite scrolling (pagination)
+- Filter TV shows by genre
+- Top Rated carousel with auto-scroll
 - View TV show details
 - Share TV show information
-- Handle loading, success, and error states
-
----
+- Pull to refresh
+- Loading, success, and error states
+- Image retry handling
 
 ## Tech Stack
 
@@ -23,113 +26,130 @@
 - URLSession
 - XCTest
 
----
-
 ## Architecture
 
 - MVVM
-
----
 
 ## Requirements
 
 - Xcode 16+
 - iOS 18.0+
 
----
-
 ## Project Structure
 
-
----
+```
+TVShow
+├── App
+├── Model
+├── View
+├── ViewModel
+├── Network
+├── Common
+```
 
 # How to Run
 
-## Requirements
+1. Clone the repository
+2. Open the project
 
-- Xcode
-- iOS Deployment Target
+```bash
+open TVShow.xcodeproj
+```
 
-## Installation
+3. Select an iOS Simulator
+4. Run the application
 
-1.
-2.
-3.
-4.
+*No API key is required since the project uses the public TVMaze API.
 
----
 
 # Architecture
 
-> Brief overview of the chosen architecture.
+The project follows the **MVVM (Model-View-ViewModel)** architecture to separate presentation, business logic, and networking concerns.
 
 ## Layers
 
 ### View
 
--
+Responsible only for rendering UI and forwarding user interactions.
+
+Examples:
+
+- HomeView
+- ShowDetailView
 
 ### ViewModel
 
--
+Contains presentation logic and exposes observable state for the views.
+
+Responsibilities include:
+
+- Fetch data
+- Pagination
+- Genre filtering
+- Navigation state
+- View state management
 
 ### Service
 
--
+Responsible for communicating with external APIs.
+
+Responsibilities:
+
+- Building requests
+- Executing network calls
+- JSON decoding
+- Error propagation
 
 ### Model
 
--
+Represents decoded API responses.
 
----
+Examples:
+
+- TVShow
+- Rating
+- Image
 
 # Architecture Decisions
 
-## Decision 1
+## MVVM
 
 **Reason**
 
--
+- Separates UI from business logic, making the application easier to maintain and test.
 
 **Trade-offs**
 
--
+- For a relatively small application, MVVM introduces additional files and abstractions compared to placing logic directly inside views.
 
----
-
-## Decision 2
+## Generic API Service
 
 **Reason**
 
--
+- A single generic networking layer (`fetchData<T>`) minimizes duplicated networking code while remaining reusable for future endpoints.
 
 **Trade-offs**
 
--
+- Generic networking requires slightly more abstraction and careful decoding configuration.
 
----
-
-## Decision 3
+## Swift Concurrency (async/await)
 
 **Reason**
 
--
+- Swift's structured concurrency provides readable asynchronous code without callback nesting.
 
 **Trade-offs**
 
--
-
----
+- Requires iOS 15+ and understanding task cancellation and structured concurrency.
 
 # Testing
 
--
+The project follows Test-Driven Development and includes unit tests covering:
 
--
-
--
-
----
+- ViewModel business logic
+- Genre filtering
+- Pagination behavior
+- Networking using mocked services
 
 # Documentation
 
@@ -138,36 +158,29 @@ Additional documentation can be found in the `docs` folder.
 - AI_LOG.md
 - CODE_REVIEW.md
 
----
-
 # What I'd Improve with More Time
 
--
--
--
--
--
--
--
-
----
+- Add image caching using a dedicated caching layer (e.g. CachedAsyncImage)
+- Add offline support
+- Add network error handler
+- Add UI tests and snapshot tests
+- Add search functionality
+- Add sorting options (rating, name, premiere date)
+- Improve carousel gesture handling for edge cases
+- Improve view and image state handler
 
 # Known Limitations
 
--
--
--
-
----
+- Images rely on TVMaze image URLs and may occasionally fail to load.
+- Pagination is triggered when the last visible card appears, which may fetch slightly earlier than expected.
+- Carousel implementation relies on repeated data and scroll position recentering.
 
 # API
 
-TVMaze API
+TVMaze API: https://www.tvmaze.com/api
 
 - `GET /shows`
 - `GET /shows/{id}`
-
----
 
 # Author
 
