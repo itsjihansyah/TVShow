@@ -83,17 +83,24 @@ struct HomeView: View {
                                 case .success:
                                     ForEach(viewModel.filteredShows, id: \.id) { show in
                                         
-                                        CardView(show: show, refreshID: viewModel.imageRefreshID)
-                                            .onTapGesture {
-                                                viewModel.selectShow(show)
-                                            }
-                                            .onAppear {
-                                                if show.id == viewModel.filteredShows.last?.id {
-                                                    Task {
-                                                        await viewModel.fetchNextPage()
-                                                    }
+                                        Button {
+                                            viewModel.selectShow(show)
+                                        } label: {
+                                            CardView(
+                                                show: show,
+                                                refreshID: viewModel.imageRefreshID
+                                            )
+                                        }
+                                        .buttonStyle(.plain)
+                                        .accessibilityLabel(show.name)
+                                        .accessibilityHint("Opens show details")
+                                        .onAppear {
+                                            if show.id == viewModel.filteredShows.last?.id {
+                                                Task {
+                                                    await viewModel.fetchNextPage()
                                                 }
                                             }
+                                        }
                                     }
                                     
                                 default:
@@ -140,24 +147,32 @@ private extension HomeView {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
 
-                Chip(
-                    name: "All",
-                    isSelected: viewModel.selectedGenre == nil
-                )
-                .onTapGesture {
+                Button {
                     viewModel.selectGenre(nil)
+                } label: {
+                    Chip(
+                        name: "All",
+                        isSelected: viewModel.selectedGenre == nil
+                    )
                 }
+                .buttonStyle(.plain)
+                .accessibilityLabel("All genres")
+                .accessibilityHint("Shows every TV show")
 
                 ForEach(viewModel.genres, id: \.self) { genre in
-                    Chip(
-                        name: genre,
-                        isSelected: viewModel.selectedGenre == genre
-                    )
-                    .onTapGesture {
+                    Button {
                         viewModel.selectGenre(
                             viewModel.selectedGenre == genre ? nil : genre
                         )
+                    } label: {
+                        Chip(
+                            name: genre,
+                            isSelected: viewModel.selectedGenre == genre
+                        )
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(genre)
+                    .accessibilityHint("Filters TV shows")
                 }
             }
             .padding(.horizontal, 16)

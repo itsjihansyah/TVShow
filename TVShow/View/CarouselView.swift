@@ -36,15 +36,18 @@ struct CarouselView: View {
     private var singleShowView: some View {
         Group {
             if let show = shows.first {
-                CardView(
-                    show: show,
-                    refreshID: refreshID,
-                    posterWidth: cardWidth
-                )
-                .contentShape(Rectangle())
-                .onTapGesture {
+                Button {
                     onShowTap(show)
+                } label: {
+                    CardView(
+                        show: show,
+                        refreshID: refreshID,
+                        posterWidth: cardWidth
+                    )
                 }
+                .buttonStyle(.plain)
+                .accessibilityLabel(show.name)
+                .accessibilityHint("Opens show details")
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -57,25 +60,23 @@ struct CarouselView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(spacing: cardSpacing) {
                         ForEach(carouselShows.indices, id: \.self) { index in
-                            CardView(
-                                show: carouselShows[index],
-                                refreshID: refreshID,
-                                posterWidth: cardWidth
-                            )
-                            .scrollTransition(
-                                .interactive,
-                                axis: .horizontal
-                            ) { content, phase in
-                                content
-                                    .scaleEffect(
-                                        phase.isIdentity ? 1 : 0.84
-                                    )
+                            let show = carouselShows[index]
+                            Button {
+                                onShowTap(show)
+                            } label: {
+                                CardView(
+                                    show: show,
+                                    refreshID: refreshID,
+                                    posterWidth: cardWidth
+                                )
+                            }
+                            .buttonStyle(.plain)
+                            .scrollTransition(.interactive, axis: .horizontal) { content, phase in
+                                content.scaleEffect(phase.isIdentity ? 1 : 0.84)
                             }
                             .id(index)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                onShowTap(carouselShows[index])
-                            }
+                            .accessibilityLabel(show.name)
+                            .accessibilityHint("Opens show details")
                         }
                     }
                     .scrollTargetLayout()

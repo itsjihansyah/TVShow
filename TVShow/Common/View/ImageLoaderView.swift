@@ -46,15 +46,11 @@ struct ImageLoader: View {
                                 placeholder
                             }
                         }
-                        .task(id: retryCount) {
-                            guard retryCount < maxRetries else {
-                                return
-                            }
-
-                            retryCount += 1
-
+                        .task(id: imageID) {
+                            guard retryCount < maxRetries else { return }
                             try? await Task.sleep(for: .seconds(1))
-
+                            guard !Task.isCancelled else { return }
+                            retryCount += 1
                             imageID = UUID()
                         }
 
