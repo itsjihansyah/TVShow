@@ -156,6 +156,11 @@ Additional documentation can be found in the `docs` folder.
 
 - AI_LOG.md
 - CODE_REVIEW.md
+- Walkthrough Video:
+
+[<img width="895" height="505" alt="TV Show App Walkthrough" src="https://github.com/user-attachments/assets/b02be2ac-91b0-4660-b527-0440c2775f48" />](https://youtu.be/JdgGZwaxn7Q)
+
+Link: https://youtu.be/JdgGZwaxn7Q
 
 # What I'd Improve with More Time
 
