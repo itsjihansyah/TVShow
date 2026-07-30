@@ -27,7 +27,7 @@ final class APIServiceTests: XCTestCase {
     func test_premieredText_formatsDate() {
         let show = TVShowMockData.shows[0]
         
-        XCTAssertEqual(show.premieredText, "24/06/2013")
+        XCTAssertEqual(show.premieredText, "Premiered on 4/06/2013")
     }
     
     func test_plainSummary_removesHTMLTags() {
@@ -44,6 +44,46 @@ final class APIServiceTests: XCTestCase {
 
         XCTAssertTrue(show.shareText.contains(show.name))
         XCTAssertTrue(show.shareText.contains(show.plainSummary))
+        XCTAssertTrue(show.shareText.contains(show.url.absoluteString))
+    }
+    
+    func test_decode_withNullData_decodesSuccessfully() throws {
+        let json = """
+        {
+            "id": 999,
+            "name": "Mystery Show",
+            "rating": { "average": null },
+            "image": null,
+            "genres": [],
+            "summary": null,
+            "premiered": null,
+            "url": "https://www.tvmaze.com/shows/999/mystery-show"
+        }
+        """.data(using: .utf8)!
+
+        let show = try JSONDecoder().decode(TVShow.self, from: json)
+
+        XCTAssertNil(show.image)
+        XCTAssertNil(show.summary)
+        XCTAssertNil(show.premiered)
+    }
+
+    func test_plainSummary_withNilSummary_returnsEmptyString() {
+        let show = TVShowMockData.showWithMissingFields
+
+        XCTAssertEqual(show.plainSummary, "")
+    }
+
+    func test_premieredText_withNilPremiered_returnsEmptyString() {
+        let show = TVShowMockData.showWithMissingFields
+
+        XCTAssertEqual(show.premieredText, "")
+    }
+
+    func test_shareText_withMissingFields_doesNotCrashAndContainsTitleAndURL() {
+        let show = TVShowMockData.showWithMissingFields
+
+        XCTAssertTrue(show.shareText.contains(show.name))
         XCTAssertTrue(show.shareText.contains(show.url.absoluteString))
     }
 }

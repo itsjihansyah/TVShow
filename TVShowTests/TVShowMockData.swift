@@ -41,4 +41,15 @@ enum TVShowMockData {
             url: URL(string: "https://www.tvmaze.com/shows/1/under-the-dome")!
         )
     ]
+    
+    static let showWithMissingFields = TVShow(
+        id: 2,
+        name: "Untitled Show",
+        rating: nil,
+        image: nil,
+        genres: [],
+        summary: nil,
+        premiered: nil,
+        url: URL(string: "https://www.tvmaze.com/shows/2/untitled-show")!
+    )
 }
