@@ -2,8 +2,7 @@
 
 A native iOS application built with **SwiftUI** that allows users to browse TV shows from the TVMaze API, filter shows by genre, and view detailed information. The app focuses on clean architecture, responsive UI, loading states, and modern Swift concurrency.
 
-<img width="2472" height="1016" alt="image" src="https://github.com/user-attachments/assets/2c0cc0e2-1141-407c-b6c9-eb9ed923268b" />
-
+<img width="1984" height="2040" alt="image" src="https://github.com/user-attachments/assets/774233c2-40a1-494e-969c-412afd6dd530" />
 
 ## Features
 
