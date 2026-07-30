@@ -19,7 +19,7 @@ struct CardView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             ImageLoader(
-                url: show.image.medium,
+                url: show.image?.medium,
                 refreshID: refreshID,
                 width: posterWidth,
                 cornerRadius: cornerRadius
@@ -40,6 +40,5 @@ struct CardView: View {
                 .foregroundStyle(.secondaryApp)
             }
         }
-        .preferredColorScheme(.dark)
     }
 }

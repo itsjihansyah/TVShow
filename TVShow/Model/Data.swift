@@ -11,9 +11,9 @@ struct TVShow : Codable, Equatable, Hashable {
     let id: Int
     let name: String
     let rating: Rating?
-    let image: ShowImage
+    let image: ShowImage?
     let genres: [String]
-    let summary: String
+    let summary: String?
     let premiered: Date?
     let url: URL
 }
@@ -42,12 +42,12 @@ extension TVShow {
     }
     
     var plainSummary: String {
-        summary
+        summary?
             .replacingOccurrences(
                 of: "<[^>]+>",
                 with: "",
                 options: .regularExpression
-            )
+            ) ?? ""
     }
     
     var shareText: String {

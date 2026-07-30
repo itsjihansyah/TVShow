@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ErrorModalView: View {
-    @Environment(\.dismiss) private var dismiss
     let retryAction: () -> Void
 
     var body: some View {
@@ -32,7 +31,6 @@ struct ErrorModalView: View {
                 .overlay(.white.opacity(0.2))
 
             Button {
-                dismiss()
                 retryAction()
             } label: {
                 ButtonPrimaryView(title: "Try Again")

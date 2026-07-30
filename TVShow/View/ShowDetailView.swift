@@ -16,7 +16,7 @@ struct ShowDetailView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        GeometryReader { proxy in
             ZStack {
                 Color.background
                     .ignoresSafeArea()
@@ -24,11 +24,11 @@ struct ShowDetailView: View {
                 ScrollView {
                     ZStack(alignment: .top) {
                         ImageLoader(
-                            url: viewModel.show.image.original,
-                            width: UIScreen.main.bounds.width,
+                            url: viewModel.show.image?.original,
+                            width: proxy.size.width,
                             cornerRadius: 0
                         )
-                        .offset(y: -UIScreen.main.bounds.height * 0.16)
+                        .offset(y: -proxy.size.height * 0.16)
                         
                         LinearGradient(
                             stops: [
@@ -38,7 +38,7 @@ struct ShowDetailView: View {
                             startPoint: .top,
                             endPoint: .bottom
                         )
-                        .frame(height: 680)
+                        .frame(height: proxy.size.height * 0.98)
                         
                         VStack(alignment: .leading, spacing: 16) {
                             VStack(alignment: .leading, spacing: 8) {
@@ -48,7 +48,7 @@ struct ShowDetailView: View {
                                     .lineLimit(2)
                                     .truncationMode(.tail)
                                     .multilineTextAlignment(.leading)
-                                    
+                                
                                 HStack {
                                     HStack(spacing: 4){
                                         Image(systemName: "star.fill")
