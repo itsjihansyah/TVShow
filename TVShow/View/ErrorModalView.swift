@@ -19,10 +19,11 @@ struct ErrorModalView: View {
 
             VStack(spacing: 8) {
                 Text("Something Went Wrong")
-                    .font(.system(size: 22, weight: .bold))
+                    .font(.title2)
+                    .fontWeight(.bold)
 
                 Text("Failed to load the data.\nPlease try again!")
-                    .font(.system(size: 16))
+                    .font(.callout)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }

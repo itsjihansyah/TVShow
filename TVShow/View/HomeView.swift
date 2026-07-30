@@ -30,7 +30,8 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     VStack(alignment: .leading, spacing: 16) {
                         Text("TV Shows")
-                            .font(.system(size: 32, weight: .bold))
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
                             .padding(.horizontal, 16)
                             .padding(.top, 24)
                         
@@ -41,7 +42,8 @@ struct HomeView: View {
                         VStack(alignment: .leading, spacing: 24) {
 
                             Text("Top Rated")
-                                .font(.system(size: 24, weight: .semibold))
+                                .font(.title)
+                                .fontWeight(.semibold)
                                 .padding(.horizontal, 16)
 
                             switch viewModel.viewState {
@@ -69,7 +71,8 @@ struct HomeView: View {
                             }
 
                             Text("Browse")
-                                .font(.system(size: 24, weight: .semibold))
+                                .font(.title)
+                                .fontWeight(.semibold)
                                 .padding(.horizontal, 16)
 
                             LazyVGrid(columns: columns, spacing: 24) {

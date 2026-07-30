@@ -14,7 +14,7 @@ struct Chip: View {
     var body: some View {
         if #available(iOS 26.0, *) {
             Text(name)
-                .font(.system(size: 18))
+                .font(.body)
                 .foregroundStyle(.white)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -28,7 +28,7 @@ struct Chip: View {
                 .glassEffect()
         } else {
             Text(name)
-                .font(.system(size: 18))
+                .font(.body)
                 .foregroundStyle(.white)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)

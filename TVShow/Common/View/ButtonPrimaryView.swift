@@ -13,7 +13,7 @@ struct ButtonPrimaryView: View {
 
     var body: some View {
         Label(title, systemImage: icon)
-            .font(.system(size: 16))
+            .font(.callout)
             .fontWeight(.medium)
             .foregroundStyle(.black)
             .frame(maxWidth: .infinity)

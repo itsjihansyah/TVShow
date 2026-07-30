@@ -43,14 +43,18 @@ struct ShowDetailView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(viewModel.show.name)
-                                    .font(.system(size: 36))
-                                    .fontWeight(Font.Weight.bold)
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                    .lineLimit(2)
+                                    .truncationMode(.tail)
+                                    .multilineTextAlignment(.leading)
+                                    
                                 HStack {
                                     HStack(spacing: 4){
                                         Image(systemName: "star.fill")
                                             .imageScale(.small)
                                         Text(viewModel.show.rating?.average?.description ?? "-")
-                                            .font(.system(size: 18))
+                                            .font(.body)
                                     }
                                     
                                     if viewModel.show.premieredText != "" {
@@ -58,7 +62,7 @@ struct ShowDetailView: View {
                                             .frame(width: 4)
                                         
                                         Text(viewModel.show.premieredText)
-                                            .font(.system(size: 18))
+                                            .font(.body)
                                     }
                                 }
                                 .foregroundStyle(.secondaryApp)

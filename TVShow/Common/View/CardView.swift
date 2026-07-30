@@ -33,9 +33,9 @@ struct CardView: View {
                     .frame(width: posterWidth, alignment: .center)
                 HStack(spacing: 4) {
                     Image(systemName: "star.fill")
-                        .font(.system(size: 12))
+                        .font(.caption)
                     Text(show.rating?.average?.description ?? "-")
-                        .font(.system(size: 14))
+                        .font(.caption)
                 }
                 .foregroundStyle(.secondaryApp)
             }
